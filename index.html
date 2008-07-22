@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+        "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<meta name="author" content="mud(tm) - Takashi Okamoto" />
+<meta name="copyright" content="2008 BuzaMoto. All rights reserved." />
+<!-- (c) 2008 BuzaMoto. All rights reserved. -->
+<title>BuzaMoto: ImageFadeGallery</title>
+<link rel="stylesheet" href="stylesheets/main.css" type="text/css" media="screen" />
+<script src="javascripts/prototype.js" language="JavaScript" type="text/javascript"></script>
+<script src="javascripts/BM_ImageFadeGallery.js" language="JavaScript" type="text/javascript"></script>
+<script type="text/javascript">
+  ////////////////////////////////////////////////////////////////////////////////
+  // INIT
+  var gallery;
+  function ifg_init() {
+    gallery = new com.buzamoto.ImageFadeGallery.Gallery('gallery',[
+      {
+        src: "images/300x400.png",
+        title: "Image 0",
+        caption: "This is the first image."
+      },
+      {
+        src: "images/400x300.png",
+        title: "Image 1",
+        caption: "This is the second image."
+      },
+      {
+        src: "images/300x400.png",
+        title: "Image 2",
+        caption: "This is the third image."
+      },
+      {
+        src: "images/400x300.png",
+        title: "Image 3",
+        caption: "This is the last image."
+      }
+    ], {startNum: 2, preload: true, autoplay: 0});
+  }
+  ////////////////////////////////////////////////////////////////////////////////
+  // EVENTS
+  Event.observe(window, 'load', ifg_init, false);
+</script>
+</head>
+
+<body>
+  
+<div id="header">
+  <a href="http://buzamoto.com">BuzaMoto</a> | JavaScript Collection | ImageFadeGallery Version 
+  <script type="text/javascript">
+    document.write(com.buzamoto.ImageFadeGallery.Version);
+  </script>
+</div>
+
+<div id="content">
+  <p class="tagline">
+    <strong>ImageFadeGallery</strong> is a simple JavaScript-based image viewer. Perfect for displaying images on your site.
+  </p>
+  <ul>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#examples">Examples</a></li>
+    <li><a href="#download">Download</a></li>
+  </ul>
+  <h2><a name="usage">Usage</a></h2>
+  <p>
+    1. Within the &lt;head&gt;, you need to set up the gallery when the page loads:
+    <pre>
+&lt;script type="text/javascript" src="javascripts/prototype.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="javascripts/BM_ImageFadeGallery.js"&gt;&lt;/script&gt;
+
+&lt;script type="text/javascript"&gt;
+  // Construct array of images you want to include.
+  // Each image is an object consisting of src, title and captions.
+  // src is the only required field.
+  var arrayOfImages = [
+    {src: 'images/a.jpg', title: 'Image A', caption: 'This is image A!'},
+    {src: 'images/b.jpg', title: 'Image B', caption: 'This is image B!'},
+    {src: 'images/c.jpg', title: 'Image C', caption: 'This is image C!'}
+  ];
+
+  // Create new gallery.
+  //      usage: com.buzamoto.ImageFadeGallery.Gallery(id, imageArray);
+  //         id: The id of the &lt;img&gt; for the gallery.
+  // imageArray: array of images included in the gallery.
+
+  var gallery;
+  Event.observe(window, 'load', function() {
+    gallery = new com.buzamoto.ImageFadeGallery.Gallery('gallery', arrayOfImages);
+  });
+&lt;/script&gt;
+    </pre>
+    2. Inside &lt;body&gt;, we need include a &lt;img&gt;, and some controls.
+    <pre>
+// Only next and prev buttons are required.
+// Note the naming of the element ids. They all start with id of the gallery frame:
+// i.e. idOfFrame_title, idOfFrame_next, etc...
+
+&lt;img id="gallery" src="" alt="image display" /&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="#" id="gallery_prev"&gt;Prev&lt;/a&gt; | &lt;a href="#" id="gallery_next"&gt;Next&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;
+    &lt;!-- use the goto* where * is an integer to set which image in the imageArray to show --&gt;
+    &lt;a href="#" id="gallery_goto0"&gt;0&lt;/a&gt; /
+    &lt;a href="#" id="gallery_goto1"&gt;1&lt;/a&gt; /
+    &lt;a href="#" id="gallery_goto2"&gt;2&lt;/a&gt; /
+    &lt;a href="#" id="gallery_goto3"&gt;3&lt;/a&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;!-- use start for starting and stop for stopping autoplay --&gt;
+    &lt;a href="#" id="gallery_start"&gt;Start&lt;/a&gt; /
+    &lt;a href="#" id="gallery_stop"&gt;Stop&lt;/a&gt;
+  &lt;/li&gt;
+  &lt;li id="gallery_title"&gt;&lt;/li&gt;
+  &lt;li id="gallery_caption"&gt;&lt;/li&gt;
+  &lt;li id="gallery_number"&gt;&lt;/li&gt;
+&lt;/ul&gt;
+    </pre>
+  </p>
+  
+  <h2><a name="examples">Examples</a></h2>
+  
+  <div id="gallery-wrapper" class="gallery" style="width: 100%; height: 400px;">
+    <div id="gallery-image-wrapper" style="float: left; width: 400px; height: 400px;">
+      <img id="gallery" src="" alt="image display" />
+    </div>
+    <div id="gallery-controller-wrapper" style="float: left; margin-left: 10px; width: 200px;">
+      <ul>
+        <li><strong>controlling with prev/next</strong></li>
+        <li><a href="#" id="gallery_prev">Prev</a> | <a href="#" id="gallery_next">Next</a></li>
+        <li><strong>control to specific image</strong></li>
+        <li><a href="#" id="gallery_goto0">0</a> / <a href="#" id="gallery_goto1">1</a> / <a href="#" id="gallery_goto2">2</a> / <a href="#" id="gallery_goto3">3</a></li>
+        <li><strong>autoplay</strong></li>
+        <li><a href="#" id="gallery_start">Start</a> / <a href="#" id="gallery_stop">Stop</a></li>
+        <li id="gallery_title" style="font-weight: bold;"></li>
+        <li id="gallery_caption"></li>
+        <li id="gallery_number"></li>
+      </ul>
+    </div>
+  </div>
+  
+  <h2><a name="download">Download</a></h2>
+  Get the latest version from <a href="http://github.com">github</a>:<br />
+  <pre>git clone git://github.com/mud/imagefadegallery.git</pre>
+</div>
+
+<div id="footer-wrapper">
+  <div id="footer">
+    <span>© 2008 <a href="http://buzamoto.com">BuzaMoto</a>. All rights reserved.</span>
+  </div>
+</div>
+
+</body>
+
+</html>
